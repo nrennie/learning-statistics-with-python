@@ -482,7 +482,7 @@
   }
 
   // Store cell data
-  globalThis.qpyodideCellDetails = [{"id":1,"code":"# Generate population data\nimport numpy as np\nnp.random.seed(1234)\npopulation = np.random.normal(250, 50, 200)\nprint(\"Population generated!\")","options":{"comment":"","out-width":"700px","classes":"","autorun":"","results":"markup","warning":"true","fig-width":7,"label":"","fig-height":5,"context":"interactive","output":"true","read-only":"false","out-height":"","fig-cap":"","dpi":72,"message":"true"}},{"id":2,"code":"# Pick a sample\nnp.random.seed(1234)\nsample_size = 10\nsample_data = np.random.choice(population, size=sample_size, replace=False)\nprint(\"You've created a sample of data!\")","options":{"comment":"","out-width":"700px","classes":"","autorun":"","results":"markup","warning":"true","fig-width":7,"label":"","fig-height":5,"context":"interactive","output":"true","read-only":"false","out-height":"","fig-cap":"","dpi":72,"message":"true"}},{"id":3,"code":"# Calculate mean\nnp.mean(sample_data)","options":{"comment":"","out-width":"700px","classes":"","autorun":"","results":"markup","warning":"true","fig-width":7,"label":"","fig-height":5,"context":"interactive","output":"true","read-only":"false","out-height":"","fig-cap":"","dpi":72,"message":"true"}},{"id":4,"code":"# Calculate standard deviation\nnp.std(sample_data)","options":{"comment":"","out-width":"700px","classes":"","autorun":"","results":"markup","warning":"true","fig-width":7,"label":"","fig-height":5,"context":"interactive","output":"true","read-only":"false","out-height":"","fig-cap":"","dpi":72,"message":"true"}}];
+  globalThis.qpyodideCellDetails = [{"options":{"classes":"","autorun":"","out-height":"","context":"interactive","output":"true","comment":"","results":"markup","read-only":"false","fig-width":7,"dpi":72,"message":"true","fig-cap":"","label":"","out-width":"700px","fig-height":5,"warning":"true"},"code":"# Generate population data\nimport numpy as np\nnp.random.seed(1234)\npopulation = np.random.normal(250, 50, 200)\nprint(\"Population generated!\")","id":1},{"options":{"classes":"","autorun":"","out-height":"","context":"interactive","output":"true","comment":"","results":"markup","read-only":"false","fig-width":7,"dpi":72,"message":"true","fig-cap":"","label":"","out-width":"700px","fig-height":5,"warning":"true"},"code":"# Pick a sample\nnp.random.seed(1234)\nsample_size = 10\nsample_data = np.random.choice(population, size=sample_size, replace=False)\nprint(\"You've created a sample of data!\")","id":2},{"options":{"classes":"","autorun":"","out-height":"","context":"interactive","output":"true","comment":"","results":"markup","read-only":"false","fig-width":7,"dpi":72,"message":"true","fig-cap":"","label":"","out-width":"700px","fig-height":5,"warning":"true"},"code":"# Calculate mean\nnp.mean(sample_data)","id":3},{"options":{"classes":"","autorun":"","out-height":"","context":"interactive","output":"true","comment":"","results":"markup","read-only":"false","fig-width":7,"dpi":72,"message":"true","fig-cap":"","label":"","out-width":"700px","fig-height":5,"warning":"true"},"code":"# Calculate standard deviation\nnp.std(sample_data)","id":4}];
 
 
   </script>
@@ -735,7 +735,7 @@ Nicola Rennie
 </section>
 <section id="sample-mean-1" class="slide level2">
 <h2>Sample mean</h2>
-<p>In Python, we use the <code>mean()</code> function:</p>
+<p>In Python, we use the <code>mean()</code> function from <code>numpy</code>:</p>
 <div id="qpyodide-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
@@ -748,7 +748,7 @@ Nicola Rennie
 </section>
 <section id="sample-standard-deviation-1" class="slide level2">
 <h2>Sample standard deviation</h2>
-<p>In Python, we use the <code>sd()</code> function:</p>
+<p>In Python, we use the <code>std()</code> function from <code>numpy</code>:</p>
 <div id="qpyodide-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="quarto-auto-generated-content">

@@ -135,7 +135,7 @@ $\bar{x} = \frac{1}{n} \sum_{i=i}^{n} x_{i}$
 
 ## Sample mean
 
-In Python, we use the `mean()` function:
+In Python, we use the `mean()` function from `numpy`:
 
 ```{pyodide-python}
 # Calculate mean
@@ -154,7 +154,7 @@ $s = \sqrt{\frac{\Sigma_{i= 1}^{N} (x_i - \bar{x})^2}{n-1}}$
 
 ## Sample standard deviation
 
-In Python, we use the `sd()` function:
+In Python, we use the `std()` function from `numpy`:
 
 ```{pyodide-python}
 # Calculate standard deviation
