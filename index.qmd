@@ -1,0 +1,162 @@
+---
+title: "Introduction to Statistics"
+author: "Nicola Rennie"
+format: revealjs
+filters:
+  - pyodide
+---
+
+# Descriptive statistics {background-color="#1A936F"}
+
+Descriptive statistics provide a summary that quantitatively describes a sample of data.
+
+```{r}
+#| label: setup
+#| echo: false
+#| eval: true
+#| message: false
+library(tidyverse)
+library(emojifont)
+library(showtext)
+library(reactable)
+library(kableExtra)
+font_add_google("Ubuntu", "Ubuntu")
+showtext_auto()
+set.seed(1234)
+population_df = tibble(ID = 1:200, 
+                       x = rep(1:20, times = 10),
+                       y = rep(1:10, each = 20),
+                       Value = rnorm(200, 250, 50))
+sample_size = 10
+sample_ids = sample(1:200, size = sample_size, replace = FALSE)
+sample_df =  filter(population_df, ID %in% sample_ids)
+```
+
+## Population
+
+**Population** refers to the entire group of individuals that we want to draw conclusions about. 
+
+```{r}
+#| label: pop-people
+#| eval: true
+#| echo: false
+#| fig-align: center
+#| fig-height: 4.16
+ggplot() +
+  geom_text(data = population_df,
+            mapping = aes(x = x,
+                          y = y,
+                          label = fontawesome('fa-user'),
+                          colour = Value),
+            family='fontawesome-webfont', size = 20) +
+  scale_colour_gradient(low = "#baded3", high = "#12664d") +
+  labs(title = "Population: 200 people") +
+  theme_void() +
+  theme(legend.position = "none", 
+        legend.title = element_blank(),
+        plot.margin = margin(10, 10, 10, 10), 
+        plot.title = element_text(face = "bold",
+                                  hjust = 0.5,
+                                  family = "Ubuntu",
+                                  size = 36,
+                                  margin = margin(b = 10)))
+
+```
+
+## Sample
+
+**Sample** refers to the (usually smaller) group of people for which we have collected data on.
+
+```{r}
+#| label: samp-people
+#| eval: true
+#| echo: false
+#| fig-align: center
+#| fig-height: 4.16
+ggplot() +
+  geom_text(data = population_df,
+            mapping = aes(x = x,
+                          y = y,
+                          label = fontawesome('fa-user')),
+            family='fontawesome-webfont', size = 20, colour = "grey") +
+  geom_text(data = sample_df,
+            mapping = aes(x = x,
+                          y = y,
+                          label = fontawesome('fa-user'),
+                          colour = Value),
+            family='fontawesome-webfont', size = 20) +
+  scale_colour_gradient(low = "#baded3", high = "#12664d") +
+  labs(title = glue::glue("Sample: {sample_size} people")) +
+  theme_void() +
+  theme(legend.position = "none", 
+        legend.title = element_blank(),
+        plot.margin = margin(10, 10, 10, 10), 
+        plot.title = element_text(face = "bold",
+                                  hjust = 0.5,
+                                  family = "Ubuntu",
+                                  size = 36,
+                                  margin = margin(b = 10)))
+
+```
+
+## Generate sample data {.scrollable}
+
+For the examples later, let's create a population of data in R...:
+
+```{pyodide-python}
+# Generate population data
+import numpy as np
+np.random.seed(1234)
+population = np.random.normal(250, 50, 200)
+print("Population generated!")
+```
+
+## Generate sample data {.scrollable}
+
+... and draw a sample from it:
+
+```{pyodide-python}
+# Pick a sample
+np.random.seed(1234)
+sample_size = 10
+sample_data = np.random.choice(population, size=sample_size, replace=False)
+print("You've created a sample of data!")
+```
+
+## Sample mean
+
+The mean, often simply called the *average*, is defined as *the sum of all values divided by the number of values*. It's a measure of central tendency that tells us what's happening near the middle of the data.
+
+::::{style='text-align: center;'}
+
+$\bar{x} = \frac{1}{n} \sum_{i=i}^{n} x_{i}$
+
+::::
+
+## Sample mean
+
+In Python, we use the `mean()` function:
+
+```{pyodide-python}
+# Calculate mean
+np.mean(sample_data)
+```
+
+## Sample standard deviation
+
+The standard deviation tells us about how spread out the data is. A lower standard deviation indicates that values tend to be close to the mean, and a higher standard deviation indicates that the values are spread out over a wider range.
+
+::::{style='text-align: center;'}
+
+$s = \sqrt{\frac{\Sigma_{i= 1}^{N} (x_i - \bar{x})^2}{n-1}}$
+
+::::
+
+## Sample standard deviation
+
+In Python, we use the `sd()` function:
+
+```{pyodide-python}
+# Calculate standard deviation
+np.std(sample_data)
+```
