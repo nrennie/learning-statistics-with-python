@@ -1,7 +1,11 @@
 ---
 title: "Introduction to Statistics"
 author: "Nicola Rennie"
-format: revealjs
+format:
+  revealjs:
+    margin: 0.05
+    theme: [default, custom.scss]
+engine: knitr
 filters:
   - pyodide
 ---
@@ -10,26 +14,24 @@ filters:
 
 Descriptive statistics provide a summary that quantitatively describes a sample of data.
 
-```{r}
+```{python}
 #| label: setup
 #| echo: false
 #| eval: true
 #| message: false
-library(tidyverse)
-library(emojifont)
-library(showtext)
-library(reactable)
-library(kableExtra)
-font_add_google("Ubuntu", "Ubuntu")
-showtext_auto()
-set.seed(1234)
-population_df = tibble(ID = 1:200, 
-                       x = rep(1:20, times = 10),
-                       y = rep(1:10, each = 20),
-                       Value = rnorm(200, 250, 50))
+import pandas as pd
+import numpy as np
+
+np.random.seed(1234)
+population_df = pd.DataFrame({
+    'ID': np.arange(1, 201),
+    'x': np.repeat(np.arange(1, 21), 10),
+    'y': np.tile(np.arange(1, 11), 20),
+    'Value': np.random.poisson(250, 200)
+})
 sample_size = 10
-sample_ids = sample(1:200, size = sample_size, replace = FALSE)
-sample_df =  filter(population_df, ID %in% sample_ids)
+sample_ids = np.random.choice(population_df['ID'], size=sample_size, replace=False)
+sample_df = population_df[population_df['ID'].isin(sample_ids)]
 ```
 
 ## Population
@@ -42,6 +44,10 @@ sample_df =  filter(population_df, ID %in% sample_ids)
 #| echo: false
 #| fig-align: center
 #| fig-height: 4.16
+library(emojifont)
+library(ggplot2)
+library(reticulate)
+population_df <- py$population_df
 ggplot() +
   geom_text(data = population_df,
             mapping = aes(x = x,
@@ -57,7 +63,6 @@ ggplot() +
         plot.margin = margin(10, 10, 10, 10), 
         plot.title = element_text(face = "bold",
                                   hjust = 0.5,
-                                  family = "Ubuntu",
                                   size = 36,
                                   margin = margin(b = 10)))
 
@@ -73,6 +78,8 @@ ggplot() +
 #| echo: false
 #| fig-align: center
 #| fig-height: 4.16
+sample_df <- py$sample_df
+sample_size <- py$sample_size
 ggplot() +
   geom_text(data = population_df,
             mapping = aes(x = x,
@@ -93,7 +100,6 @@ ggplot() +
         plot.margin = margin(10, 10, 10, 10), 
         plot.title = element_text(face = "bold",
                                   hjust = 0.5,
-                                  family = "Ubuntu",
                                   size = 36,
                                   margin = margin(b = 10)))
 
@@ -101,13 +107,13 @@ ggplot() +
 
 ## Generate sample data {.scrollable}
 
-For the examples later, let's create a population of data in R...:
+For the examples later, let's create a population of data in Python:
 
 ```{pyodide-python}
 # Generate population data
 import numpy as np
 np.random.seed(1234)
-population = np.random.normal(250, 50, 200)
+population = np.random.poisson(250, 200)
 print("Population generated!")
 ```
 
@@ -123,7 +129,19 @@ sample_data = np.random.choice(population, size=sample_size, replace=False)
 print("You've created a sample of data!")
 ```
 
-## Sample mean
+<br>
+
+::: {.fragment}
+
+What do the values look like?
+
+```{pyodide-python}
+sample_data
+```
+
+:::
+
+## Mean
 
 The mean, often simply called the *average*, is defined as *the sum of all values divided by the number of values*. It's a measure of central tendency that tells us what's happening near the middle of the data.
 
@@ -133,7 +151,9 @@ $\bar{x} = \frac{1}{n} \sum_{i=i}^{n} x_{i}$
 
 ::::
 
-## Sample mean
+<br>
+
+::: {.fragment}
 
 In Python, we use the `mean()` function from `numpy`:
 
@@ -142,9 +162,93 @@ In Python, we use the `mean()` function from `numpy`:
 np.mean(sample_data)
 ```
 
+:::
+
+## Median
+
+The median of a dataset is the middle value when the data is arranged in ascending order, or the average of the two middle values if the dataset has an even number of observations.
+
+<br>
+
+::: {.fragment}
+
+In Python, we use the `median()` function from `numpy`:
+
+```{pyodide-python}
+# Calculate median
+np.median(sample_data)
+```
+
+:::
+
+## Mode
+
+The mode statistic represents the value that appears most frequently in a dataset.
+
+<br>
+
+::: {.fragment}
+
+In Python, we use the `mode()` function from `statistics`:
+
+```{pyodide-python}
+# Calculate mode
+import statistics
+statistics.mode(sample_data)
+```
+
+:::
+
+## Range
+
+The range is the difference between the maximum and minimum values in a dataset.
+
+<br>
+
+::: {.fragment}
+
+In Python, we can use the `max()` and `min()` function and subtract the values:
+
+```{pyodide-python}
+# Subtract max and min values
+max(sample_data) - min(sample_data)
+```
+
+Or, we can use the `ptp()` function from `numpy`:
+
+```{pyodide-python}
+# Calculate range using numpy
+np.ptp(sample_data)
+```
+
+:::
+
+## Sample variance
+
+The sample variance tells us about how spread out the data is. A lower variance indicates that values tend to be close to the mean, and a higher variance indicates that the values are spread out over a wider range.
+
+::::{style='text-align: center;'}
+
+$s^2 = \frac{\Sigma_{i= 1}^{N} (x_i - \bar{x})^2}{n-1}$
+
+::::
+
+<br>
+
+::: {.fragment}
+
+In Python, we use the `var()` function from `numpy`:
+
+```{pyodide-python}
+# Calculate variance
+np.var(sample_data)
+```
+
+:::
+
 ## Sample standard deviation
 
-The standard deviation tells us about how spread out the data is. A lower standard deviation indicates that values tend to be close to the mean, and a higher standard deviation indicates that the values are spread out over a wider range.
+The sample standard deviation is the square root of the variance. It also tells us about how spread out the data is. 
 
 ::::{style='text-align: center;'}
 
@@ -152,7 +256,9 @@ $s = \sqrt{\frac{\Sigma_{i= 1}^{N} (x_i - \bar{x})^2}{n-1}}$
 
 ::::
 
-## Sample standard deviation
+<br>
+
+::: {.fragment}
 
 In Python, we use the `std()` function from `numpy`:
 
@@ -160,3 +266,54 @@ In Python, we use the `std()` function from `numpy`:
 # Calculate standard deviation
 np.std(sample_data)
 ```
+
+:::
+
+## Descriptive statistics
+
+Descriptive statistics provide a summary that quantitatively describes a sample of data.
+
+* Mean: The sum of the values divided by the number of values.
+* Median: The middle value of the data when it's sorted.
+* Mode: The value that appears most frequently.
+* Range: The difference between the maximum and minimum values.
+* Variance: The average of the squared differences from the mean.
+* Standard deviation: The square root of the variance.
+
+## Exercise
+
+In Python:
+
+* Import `numpy` and `statistics`.
+* Import `data` from `pydataset` using `from pydataset import data`
+* Load the `housing` data set using `housing = data('Housing')`
+* Calculate the mean, median, mode, range, variance, and standard deviation of house prices. 
+
+> Remember: you can extract a column in Python using `dataset['column_name']`.
+
+## Exercise solutions
+
+```{python}
+#| echo: true
+import numpy as np
+import statistics
+from pydataset import data
+
+# load data
+housing = data('Housing')
+```
+
+## Exercise solutions
+
+```{python}
+#| echo: true
+# summary statistics
+np.mean(housing['price'])
+np.median(housing['price'])
+statistics.mode(housing['price'])
+max(housing['price']) - min(housing['price'])
+np.var(housing['price'])
+np.std(housing['price'])
+```
+
+# Questions? {background-color="#1A936F"}
