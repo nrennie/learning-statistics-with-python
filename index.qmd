@@ -3,7 +3,6 @@ title: "Introduction to Statistics"
 author: "Nicola Rennie"
 format:
   revealjs:
-    margin: 0.05
     theme: [default, custom.scss]
 engine: knitr
 filters:
